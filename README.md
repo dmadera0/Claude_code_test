@@ -1,37 +1,45 @@
-# Todo App
+# Todo CLI
 
-A simple command-line todo application written in Python. Manage your tasks with add, list, and delete commands. All todos are automatically saved to a JSON file for persistence.
+A lightweight command-line todo application written in Python. Add, list, complete, and delete tasks — all persisted locally in a JSON file.
 
 ## Features
 
 - **Add todos**: Quickly add new tasks from the command line
-- **List todos**: View all your todos with their IDs and status
-- **Delete todos**: Remove completed or unwanted tasks by ID
-- **Persistent storage**: Todos are saved to a JSON file and persist between sessions
-- **Timestamps**: Each todo records when it was created
-- **Simple interface**: Easy-to-use command-line interface
+- **List todos**: View all tasks with their IDs and completion status
+- **Complete todos**: Mark tasks as done without removing them
+- **Delete todos**: Remove tasks by ID
+- **Persistent storage**: Todos are saved to `~/.todos.json` and survive between sessions
+- **Unique IDs**: IDs are never reused, even after deletion
+- **No dependencies**: Uses only Python's standard library
+
+## Requirements
+
+- Python 3.6 or higher
 
 ## Installation
 
-1. Ensure you have Python 3.6+ installed
-2. Download or clone this repository
-3. No external dependencies required - uses only Python's standard library
+### Run directly
+
+```bash
+python3 todo.py <command>
+```
+
+### Install as a CLI tool
+
+```bash
+pip install .
+todo <command>
+```
 
 ## Usage
 
-### Add a Todo
+### Add a todo
 
-```bash
-python3 todo.py add "Your task description"
-```
-
-Example:
 ```bash
 python3 todo.py add "Buy groceries"
-python3 todo.py add "Finish project report"
 ```
 
-### List All Todos
+### List all todos
 
 ```bash
 python3 todo.py list
@@ -47,39 +55,39 @@ Your todos:
 Total: 2 todo(s)
 ```
 
-### Delete a Todo
+### Complete a todo
 
 ```bash
-python3 todo.py delete <id>
+python3 todo.py complete 1
 ```
 
-Example:
+The todo remains visible in `list` output and is marked with `✓`.
+
+### Delete a todo
+
 ```bash
 python3 todo.py delete 2
 ```
 
-This removes the todo with ID 2.
+## Command Reference
+
+| Command    | Arguments | Description                          |
+|------------|-----------|--------------------------------------|
+| `add`      | `<task>`  | Add a new todo                       |
+| `list`     | —         | Display all todos                    |
+| `complete` | `<id>`    | Mark the todo with the given ID done |
+| `delete`   | `<id>`    | Remove the todo with the given ID    |
 
 ## Data Storage
 
-Todos are stored in a JSON file located at:
-```
-~/.todos.json
-```
+Todos are stored in `~/.todos.json`. Example:
 
-Each todo contains:
-- **id**: Unique identifier for the todo
-- **task**: The description of the task
-- **completed**: Boolean flag (currently set to false)
-- **created**: ISO timestamp of when the todo was created
-
-Example JSON structure:
 ```json
 [
   {
     "id": 1,
     "task": "Buy groceries",
-    "completed": false,
+    "completed": true,
     "created": "2026-02-25T14:13:03.972292"
   },
   {
@@ -91,26 +99,6 @@ Example JSON structure:
 ]
 ```
 
-## How It Works
-
-1. **Load**: When you run a command, the app loads existing todos from `~/.todos.json`
-2. **Process**: The app executes your command (add, list, or delete)
-3. **Save**: For add and delete operations, the updated todo list is saved back to the JSON file
-4. **Display**: The app provides feedback about what was done
-
-## Command Reference
-
-| Command | Arguments | Description |
-|---------|-----------|-------------|
-| `add` | `<task>` | Add a new todo with the given task description |
-| `list` | None | Display all todos with their IDs and completion status |
-| `delete` | `<id>` | Delete the todo with the specified ID |
-
-## Requirements
-
-- Python 3.6 or higher
-- Standard library modules: `json`, `sys`, `pathlib`, `datetime`, `argparse`
-
 ## License
 
-Free to use and modify as needed.
+MIT
